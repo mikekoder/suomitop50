@@ -44,7 +44,14 @@ def get_videos(year, start, end):
             file = f'{folder}/{song["file"]}'
 
             if len(song["file"]) == 0:
-                status = 'Video not selected'
+                files = [f for f in os.listdir(folder) if f.endswith('.mp4')]
+                if (len(files) == 0):
+                    status = 'Video not found'
+                elif (len(files) == 1):
+                    file = f'{folder}/{files[0]}'
+                    status = 'OK'
+                else:
+                    status = 'Multiple videos found'
             elif not os.path.exists(file):
                 status = 'Video file missing'   
             elif math.isnan(song["start"]):
